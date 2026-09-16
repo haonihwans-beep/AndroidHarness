@@ -5,7 +5,9 @@ object SecretRedactor {
 
     private val PATTERNS = listOf(
         Regex("""-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"""),
-        Regex("""\bsk-[A-Za-z0-9]{10,}"""),
+        Regex("""\bsk-[A-Za-z0-9\-_]{10,}"""),
+        Regex("""\bgsk_[A-Za-z0-9_]{16,}"""),
+        Regex("""\btvly-[A-Za-z0-9\-_]{16,}"""),
         Regex("""\bAKIA[0-9A-Z]{16}"""),
         Regex("""\bAIza[0-9A-Za-z\-_]{20,}"""),
         Regex("""\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+"""),

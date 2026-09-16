@@ -29,6 +29,22 @@ class SecretRedactorTest {
     }
 
     @Test
+    fun `anthropic openai groq and tavily keys are stripped`() {
+        val raw = """
+            ANTHROPIC=sk-ant-api03-1234567890abcdef1234567890abcdef12345678
+            OPENAI_PROJ=sk-proj-1234567890abcdef1234567890abcdef
+            GROQ=gsk_1234567890abcdef1234567890abcdef
+            TAVILY=tvly-1234567890abcdef1234567890abcdef
+        """.trimIndent()
+        val out = SecretRedactor.redact(raw)
+        assertFalse(out.contains("sk-ant-api03"))
+        assertFalse(out.contains("sk-proj-12345"))
+        assertFalse(out.contains("gsk_1234567890"))
+        assertFalse(out.contains("tvly-1234567890"))
+        assertTrue(out.contains("[redacted]"))
+    }
+
+    @Test
     fun `github tokens are stripped everywhere they appear`() {
         val raw = """
             export GH_TOKEN=gho_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8
